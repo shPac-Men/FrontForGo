@@ -1,15 +1,12 @@
 // src/Routes.ts
 export const ROUTES = {
-  HOME: "/",
-  ALBUMS: "/albums",
-  // Добавляем путь для страницы "Подробнее". :id - это динамический параметр
-  ALBUM_DETAIL: "/albums/:id", 
-};
+  HOME: '/',
+  ITUNES: '/itunes',
+  ALBUMS: '/albums',
+} as const;
 
-export type RouteKeyType = keyof typeof ROUTES;
-
-export const ROUTE_LABELS: { [key in RouteKeyType]: string } = {
-  HOME: "Главная",
-  ALBUMS: "Альбомы",
-  ALBUM_DETAIL: "Подробнее", // Название для "хлебных крошек"
-};
+export const ROUTE_LABELS = {
+  HOME: 'Главная',
+  ITUNES: 'iTunes Search',
+  ALBUMS: 'Альбомы',
+} as const;

@@ -1,17 +1,49 @@
-// src/components/Example.tsx
-import React from 'react';
+import type { FC } from "react";
+import { Button, Card } from "react-bootstrap";
+import "./MusicCard.css";
 
-type Props = {};
-type State = { count: number };
-
-class Example extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { count: 0 };
-  }
-  render() {
-    return <div>Count: {this.state.count}</div>;
-  }
+interface ICardProps {
+  artworkUrl100: string;
+  artistName: string;
+  collectionCensoredName: string;
+  trackViewUrl: string;
+  imageClickHandler: () => void;
 }
 
-export default Example;
+export const MusicCard: FC<ICardProps> = ({
+  artworkUrl100,
+  artistName,
+  collectionCensoredName,
+  trackViewUrl,
+  imageClickHandler,
+}) => {
+
+  return (
+    <Card className="card">
+      <Card.Img
+        className="cardImage"
+        variant="top"
+        src={artworkUrl100}
+        height={100}
+        width={100}
+        onClick={imageClickHandler}
+      />
+      <Card.Body>
+        <div className="textStyle">
+          <Card.Title>{collectionCensoredName}</Card.Title>
+        </div>
+        <div className="textStyle">
+          <Card.Text>{artistName}</Card.Text>
+        </div>
+        <Button
+          className="cardButton"
+          href={trackViewUrl}
+          target="_blank"
+          variant="primary"
+        >
+          Открыть в ITunes
+        </Button>
+      </Card.Body>
+    </Card>
+  );
+};

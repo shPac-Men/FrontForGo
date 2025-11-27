@@ -1,48 +1,90 @@
-import { useState} from 'react'
-import type { FC} from 'react'
-import { Col, Row, Spinner } from 'react-bootstrap'
-import { getMusicByName } from '../../modules/ITunesAPI'
-import type { ITunesMusic } from '../../modules/ITunesAPI'
-import  InputField  from '../../components/InputField/InputField'
-import  MusicCard  from '../../components/MusicCard/MusicCard'
-import './ITunesPage.css'
+import "./ITunesPage.css";
+import { useState } from "react";
+import type { FC } from 'react';
+import { Col, Row, Spinner } from "react-bootstrap";
+import { getMusicByName } from "../../modules/ITunesAPI";
+import type { ITunesMusic } from "../../modules/ITunesAPI";
+import InputField from "../../components/InputField/InputField";
+import { BreadCrumbs } from "../../components/BreadCrumbs/BreadCrumbs";
+import { ROUTES, ROUTE_LABELS } from "../../Routes";
+import MusicCard from "../../components/MusicCard/MusicCard";
+import { useNavigate } from "react-router-dom";
+import { SONGS_MOCK } from "../../modules/mock";
 
 const ITunesPage: FC = () => {
-    const [searchValue, setSearchValue] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [music, setMusic] = useState<ITunesMusic[]>([])
+  const [searchValue, setSearchValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [music, setMusic] = useState<ITunesMusic[]>([]);
 
-    const handleSearch = async () =>{
-        setLoading(true)
-        const { results } = await getMusicByName(searchValue)
-        setMusic(results.filter(item => item.wrapperType === "track"))
-        setLoading(false)
-    }
+  const navigate = useNavigate();
 
-    return (
-        <div className={`container ${loading && 'containerLoading'}`}>
-            {loading && <div className="loadingBg"><Spinner animation="border"/></div>}
+  const handleSearch = () => {
+    setLoading(true);
+    getMusicByName(searchValue)
+      .then((response) => {
+        setMusic(
+          response.results.filter((item) => item.wrapperType === "track")
+        );
+        setLoading(false);
+      })
+      .catch(() => {
+        // В случае ошибки используем mock данные, фильтруем по имени
+        setMusic(
+          SONGS_MOCK.filter((item) =>
+            item.collectionCensoredName
+              .toLowerCase()
+              .includes(searchValue.toLowerCase())
+          )
+        );
+        setLoading(false);
+      });
+  };
 
-            <InputField
-                value={searchValue}
-                setValue={(value) => setSearchValue(value)}
-                loading={loading}
-                onSubmit={handleSearch}
-            />
+  const handleSetValue = (value: string) => {
+    setSearchValue(value);
+  };
 
-            {!music.length && <div>
-                <h1>К сожалению, пока ничего не найдено :(</h1>
-            </div>}
+  const handleCardClick = (id: number) => {
+    navigate(`${ROUTES.ALBUMS}/${id}`);
+  };
 
-            <Row xs={4} md={4} className="g-4">
-                {music.map((item, index)=> (
-                    <Col key={index}>
-                        <MusicCard {...item} />
-                    </Col>
-                ))}
-            </Row>
+  return (
+    <div className="container">
+      <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.HOME }]} />
+      
+      <InputField
+        value={searchValue}
+        setValue={handleSetValue}
+        loading={loading}
+        onSubmit={handleSearch}
+      />
+
+      {loading && (
+        <div className="loadingBg">
+          <Spinner animation="border" />
         </div>
-    )
-}
+      )}
 
-export default ITunesPage
+      {!loading && !music.length && (
+        <div>
+          <h1>К сожалению, пока ничего не найдено :(</h1>
+        </div>
+      )}
+
+      {!loading && music.length > 0 && (
+        <Row xs={1} md={2} lg={4} className="g-4">
+          {music.map((item, index) => (
+            <Col key={index}>
+              <MusicCard
+                imageClickHandler={() => handleCardClick(item.collectionId)}
+                {...item}
+              />
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>
+  );
+};
+
+export default ITunesPage;
