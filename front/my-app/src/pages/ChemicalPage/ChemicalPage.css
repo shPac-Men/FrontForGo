@@ -1,18 +1,18 @@
-/* Сброс */
-* {
+/* Сброс для всего компонента */
+.chemistry-page * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+.chemistry-page {
     height: 100%;
     font-family: Arial, sans-serif;
     background: #fff;
 }
 
 /* Hero секция */
-.hero {
+.chemistry-page .hero {
     height: 50vh;
     background: url("/staticimages/MainFone.jpg") no-repeat center center;
     background-size: cover;
@@ -20,7 +20,7 @@ html, body {
     color: white;
 }
 
-.hero::before {
+.chemistry-page .hero::before {
     content: "";
     position: absolute;
     top: 0;
@@ -32,7 +32,7 @@ html, body {
     pointer-events: none;
 }
 
-header {
+.chemistry-page header {
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -42,14 +42,14 @@ header {
     z-index: 1;
 }
 
-header h1 a img {
+.chemistry-page header h1 a img {
     width: 50px;
     height: 50px;
     display: block;
 }
 
 /* Секция поиска с корзиной */
-.search-section {
+.chemistry-page .search-section {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,7 +60,7 @@ header h1 a img {
 }
 
 /* Ссылка корзины */
-.cart-link {
+.chemistry-page .cart-link {
     display: flex;
     align-items: center;
     padding: 12px;
@@ -72,19 +72,19 @@ header h1 a img {
     position: relative;
 }
 
-.cart-link:hover {
+.chemistry-page .cart-link:hover {
     background: #e9ecef;
     border-color: #adb5bd;
 }
 
-.cart-link img {
+.chemistry-page .cart-link img {
     width: 24px;
     height: 24px;
     transform: scale(1.3);
 }
 
 /* Стили для счетчика корзины */
-.cart-count {
+.chemistry-page .cart-count {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -104,7 +104,7 @@ header h1 a img {
 }
 
 /* Форма поиска */
-.search-section form {
+.chemistry-page .search-section form {
     display: flex;
     background: white;
     border-radius: 6px;
@@ -112,7 +112,7 @@ header h1 a img {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.search-section form input[type="text"] {
+.chemistry-page .search-section form input[type="text"] {
     padding: 12px;
     width: 300px;
     border: none;
@@ -120,7 +120,7 @@ header h1 a img {
     font-size: 16px;
 }
 
-.search-section form button {
+.chemistry-page .search-section form button {
     padding: 12px 20px;
     border: none;
     background: #333;
@@ -130,27 +130,27 @@ header h1 a img {
     transition: background 0.2s;
 }
 
-.search-section form button:hover {
+.chemistry-page .search-section form button:hover {
     background: #555;
 }
 
 /* Основная часть */
-main {
+.chemistry-page main {
     background: white;
     padding: 40px 20px;
     text-align: center;
 }
 
 /* Карточки - 3 колонки и больше */
-.cards-container {
+.chemistry-page .cards-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Фиксированные 3 колонки */
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin: 0 auto;
     max-width: 1200px;
 }
 
-.card {
+.chemistry-page .card {
     background: #fff;
     border: 1px solid #eaeaea;
     border-radius: 8px;
@@ -163,31 +163,31 @@ main {
     justify-content: space-between;
 }
 
-.card:hover {
+.chemistry-page .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-.card-img {
+.chemistry-page .card-img {
     width: 100%;
     height: 180px;
     object-fit: contain;
     margin-bottom: 16px;
 }
 
-.card h3 {
+.chemistry-page .card h3 {
     font-size: 20px;
     margin: 12px 0;
     font-weight: 600;
 }
 
-.card p {
+.chemistry-page .card p {
     font-size: 16px;
     margin: 6px 0;
     color: #333;
 }
 
-.btn {
+.chemistry-page .btn {
     display: inline-block;
     margin-top: 12px;
     padding: 10px 18px;
@@ -202,19 +202,12 @@ main {
     font-family: Arial, sans-serif;
 }
 
-.btn:hover {
+.chemistry-page .btn:hover {
     background: #444;
 }
 
-.btn-cart {
-    background: #000;
-}
-
-.btn-cart:hover {
-    background: #444;
-}
-
-.loading, .no-results {
+.chemistry-page .loading, 
+.chemistry-page .no-results {
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px;

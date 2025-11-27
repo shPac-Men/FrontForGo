@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
 import './HomePage.css';
+import { ROUTES } from '../../Routes';  // ← Добавьте импорт
 
 export const HomePage: FC = () => {
   return (
@@ -20,7 +21,7 @@ export const HomePage: FC = () => {
         <div className="welcome-section">
           <h2>Добро пожаловать в химическую лабораторию</h2>
           <p>Исследуйте химические реактивы и создавайте смеси</p>
-          <Link to="/chemicals" className="btn btn-primary">
+          <Link to={ROUTES.ELEMENTS} className="btn btn-primary">
             Перейти к реактивам
           </Link>
         </div>

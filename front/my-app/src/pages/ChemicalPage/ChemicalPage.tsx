@@ -1,11 +1,10 @@
-
-
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import type { ChemicalElement } from '../../types/chemistry';
 import { getChemicals, addToMixing, getCartCount } from '../../modules/chemistryApi';
 import './ChemicalPage.css';
+import { ROUTES } from '../../Routes';
 
 export const ChemicalPage: FC = () => {
   const [chemicals, setChemicals] = useState<ChemicalElement[]>([]);
@@ -46,7 +45,7 @@ export const ChemicalPage: FC = () => {
 
   const handleAddToMixing = async (id: number) => {
     try {
-      const success = await addToMixing(id, 100); // 100ml по умолчанию
+      const success = await addToMixing(id, 100);
       if (success) {
         setCartCount(prev => prev + 1);
         alert('Реактив добавлен в корзину');
@@ -61,20 +60,18 @@ export const ChemicalPage: FC = () => {
 
   return (
     <div className="chemistry-page">
-      {/* Hero секция с картинкой */}
       <section className="hero">
         <header>
           <h1>
-            <Link to="/chemicals">
+            <Link to={ROUTES.HOME}>
               <img src="/staticimages/image.svg" alt="home" />
             </Link>
           </h1>
         </header>
       </section>
 
-      {/* Поиск и корзина в одной строке */}
       <div className="search-section">
-        <Link to="/mixing" className="cart-link">
+        <Link to={ROUTES.MIXING} className="cart-link">  {/* ← Измени */}
           <img src="/staticimages/breaker.svg" alt="cart" />
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
@@ -91,9 +88,7 @@ export const ChemicalPage: FC = () => {
         </form>
       </div>
 
-      {/* Основная часть (белая) */}
       <main>
-        {/* Карточки */}
         <div className="cards-container">
           {loading ? (
             <div className="loading">Загрузка...</div>
@@ -114,7 +109,12 @@ export const ChemicalPage: FC = () => {
                 <h3>{chemical.name}</h3>
                 <p><strong>Концентрация:</strong> {chemical.concentration}</p>
                 <p><strong>pH:</strong> {chemical.ph}</p>
-                <Link to={`/element/${chemical.id}`} className="btn">Подробнее</Link>
+                <Link 
+                  to={ROUTES.CHEMICAL_DETAIL.replace(':id', chemical.id.toString())}
+                  className="btn"
+                >
+                  Подробнее
+                </Link>
                 <button 
                   type="button" 
                   className="btn btn-cart"

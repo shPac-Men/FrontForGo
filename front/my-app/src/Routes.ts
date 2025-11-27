@@ -1,10 +1,10 @@
 export const ROUTES = {
   HOME: '/',
-  CHEMICALS: '/chemicals',  // Добавляем CHEMICALS
-  ELEMENTS: '/elements',
+  CHEMICALS: '/chemicals',  // ← Главная страница реактивов
+  ELEMENTS: '/elements',    // ← Если это нужно, оставь
   ELEMENT_DETAIL: '/elements/:id',
   MIXING: '/mixing',
-  CHEMICAL_DETAIL: '/chemicals/:id',  // Добавляем CHEMICAL_DETAIL
+  CHEMICAL_DETAIL: '/elements/:id',  // ← Деталь реактива (химический элемент)
 } as const;
 
 export const ROUTE_LABELS = {
