@@ -1,4 +1,5 @@
-import type { ChemicalElement, ApiResponse } from '../types/chemistry';
+import type { ChemicalElement } from '../types/chemistry';
+// ApiResponse больше не нужен, так как бэкенд возвращает чистые данные
 
 const API_BASE = '/api/v1';
 
@@ -46,7 +47,8 @@ export const CHEMICALS_MOCK: ChemicalElement[] = [
   }
 ];
 
-// Исправленная функция - принимает строку query
+// Получить список элементов
+// Изменено: теперь API возвращает массив элементов напрямую, а не { data: { items: [] } }
 export const getChemicals = async (query?: string): Promise<ChemicalElement[]> => {
   try {
     const url = query ? `${API_BASE}/elements?query=${encodeURIComponent(query)}` : `${API_BASE}/elements`;
@@ -57,13 +59,13 @@ export const getChemicals = async (query?: string): Promise<ChemicalElement[]> =
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    const data: ApiResponse<{ items: ChemicalElement[] }> = await response.json();
+    // Бэкенд возвращает массив напрямую: [ElementResponse, ...]
+    const data: ChemicalElement[] = await response.json();
     
-    return data.data?.items || [];
+    return data || [];
   } catch (error) {
     console.warn('API request failed, using mock data:', error);
     
-    // Фильтрация mock данных
     if (query) {
       return CHEMICALS_MOCK.filter(item =>
         item.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -76,6 +78,7 @@ export const getChemicals = async (query?: string): Promise<ChemicalElement[]> =
 };
 
 // Получить один элемент по ID
+// Изменено: API возвращает объект элемента напрямую
 export const getChemicalById = async (id: number): Promise<ChemicalElement | null> => {
   try {
     const response = await fetch(`${API_BASE}/elements/${id}`);
@@ -84,8 +87,9 @@ export const getChemicalById = async (id: number): Promise<ChemicalElement | nul
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    const data: ApiResponse<ChemicalElement> = await response.json();
-    return data.data || null;
+    // Бэкенд возвращает объект элемента напрямую
+    const data: ChemicalElement = await response.json();
+    return data;
   } catch (error) {
     console.warn('Failed to fetch element, using mock:', error);
     return CHEMICALS_MOCK.find((el) => el.id === id) || null;
@@ -102,6 +106,8 @@ export const addToMixing = async (element_id: number, volume: number = 100): Pro
       body: JSON.stringify({ element_id, volume }),
     });
     
+    // Статус 200 или 201 означает успех. 
+    // Нам не нужно читать тело ответа для возврата boolean.
     return response.ok;
   } catch (error) {
     console.error('Failed to add to mixing:', error);
@@ -110,6 +116,7 @@ export const addToMixing = async (element_id: number, volume: number = 100): Pro
 };
 
 // Получить содержимое корзины
+// Изменено: структура ответа теперь проще { items: [], ... } без обертки Data
 export const getMixingCart = async (): Promise<any[]> => {
   try {
     const response = await fetch(`${API_BASE}/mixing`, {
@@ -118,8 +125,9 @@ export const getMixingCart = async (): Promise<any[]> => {
     
     if (!response.ok) return [];
     
+    // Бэкенд возвращает MixingResponse напрямую: { items: [], total_items: 0, ... }
     const data = await response.json();
-    return data.data?.items || [];
+    return data.items || [];
   } catch (error) {
     console.warn('Failed to fetch mixing cart:', error);
     return [];
@@ -136,7 +144,9 @@ export const removeFromMixing = async (element_id: number): Promise<boolean> => 
       body: JSON.stringify({ element_id }),
     });
     
-    return response.ok;
+    // Важно: Бэкенд теперь возвращает 204 No Content.
+    // НЕ вызываем response.json(), так как тело пустое.
+    return response.ok; 
   } catch (error) {
     console.error('Failed to remove from mixing:', error);
     return false;
@@ -144,6 +154,7 @@ export const removeFromMixing = async (element_id: number): Promise<boolean> => 
 };
 
 // Получить количество товаров в корзине
+// Изменено: убрана вложенность data
 export const getCartCount = async (): Promise<number> => {
   try {
     const response = await fetch(`${API_BASE}/mixing/cart-icon`, {
@@ -152,8 +163,13 @@ export const getCartCount = async (): Promise<number> => {
     
     if (!response.ok) return 0;
     
+    // Бэкенд возвращает { items_count: N, draft_order_id: N } напрямую
     const data = await response.json();
-    return data.data?.count || 0;
+    
+    // Проверяем поля в соответствии с JSON тегами в Go (обычно snake_case или camelCase)
+    // В Go коде было: type CartIconResponse struct { ItemsCount int ... }
+    // Gin по умолчанию сериализует как есть, если нет тегов, или по тегам `json:"items_count"`.
+    return data.items_count || data.ItemsCount || 0;
   } catch (error) {
     console.warn('Failed to fetch cart count');
     return 0;
