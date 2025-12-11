@@ -7,7 +7,7 @@
 
 /* Hero секция */
 .hero {
-    height: 40vh; /* Немного уменьшил высоту для баланса */
+    height: 40vh;
     min-height: 300px;
     background: url("http://localhost:9000/staticimages/MainFone.jpg") no-repeat center center;
     background-size: cover;
@@ -67,13 +67,13 @@
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 800px; /* Ограничиваем ширину */
+    max-width: 800px;
     margin: 0 auto;
     overflow: hidden;
     background: #f9f9f9;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    padding-bottom: 30px; /* Место для точек */
+    padding-bottom: 30px;
 }
 
 .carousel-track {
@@ -85,7 +85,7 @@
 .carousel-slide {
     min-width: 100%;
     box-sizing: border-box;
-    padding: 30px 60px; /* Отступы для стрелок */
+    padding: 30px 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -166,23 +166,18 @@
     background: rgba(0,0,0,0.1);
     border: none;
     color: #333;
-    /* Уменьшаем размер иконки стрелки */
-    font-size: 1.2rem; 
-    /* Уменьшаем отступы, кнопка станет компактнее */
-    padding: 8px 12px; 
+    font-size: 1.2rem;
+    padding: 8px 12px;
     cursor: pointer;
-    border-radius: 50%; /* Если хотите круглую кнопку */
+    border-radius: 50%;
     transition: background 0.3s;
     z-index: 2;
-    
-    /* Опционально: можно задать фиксированную ширину/высоту для идеального круга */
     width: 36px;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 
 .carousel-btn:hover {
     background: rgba(0,0,0,0.2);
@@ -219,17 +214,71 @@
     background: #000;
 }
 
-/* Адаптивность для мобильных */
+/* === Адаптивность === */
+
+/* Телефон: до 600px */
 @media (max-width: 600px) {
-    .instruction-grid {
-        grid-template-columns: 1fr; /* Одна колонка на телефоне */
+    .hero {
+        height: 30vh;
+        min-height: 220px;
     }
-    
-    .carousel-slide {
-        padding: 20px 40px;
+
+    .home-page header {
+        padding: 0 12px;
+    }
+
+    .home-page header h1 a img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .welcome-section {
+        padding: 24px 16px;
     }
 
     .welcome-section h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+    }
+
+    .welcome-section .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .carousel-slide {
+        padding: 20px 24px;
+    }
+
+    .instruction-grid {
+        grid-template-columns: 1fr; /* одна колонка */
+    }
+
+    .step-item p {
+        font-size: 0.95rem;
     }
 }
+
+/* Планшет: 601–992px */
+@media (min-width: 601px) and (max-width: 992px) {
+    .hero {
+        height: 35vh;
+    }
+
+    .welcome-section {
+        padding: 32px 32px;
+    }
+
+    .welcome-section h2 {
+        font-size: 2rem;
+    }
+
+    .carousel-slide {
+        padding: 24px 40px;
+    }
+
+    .instruction-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Большие экраны: от 993px — уже базовые значения выше */

@@ -116,7 +116,9 @@
     background: #444;
 }
 
-/* Адаптивность */
+/* === Адаптивность === */
+
+/* Телефон: до 600px */
 @media (max-width: 600px) {
     .element-page .header {
         flex-direction: column;
@@ -129,9 +131,14 @@
         margin-bottom: 12px;
     }
     
+    .element-page .header h1 {
+        font-size: 20px;
+    }
+
     .element-page .card {
         padding: 20px;
         margin: 20px 15px;
+        max-width: 100%;
     }
     
     .element-page .formula {
@@ -141,4 +148,30 @@
     .element-page .property {
         padding: 10px 12px;
     }
+
+    .element-page .property-title {
+        font-size: 13px;
+    }
+
+    .element-page .property-value {
+        font-size: 15px;
+    }
 }
+
+/* Планшет: 601–992px */
+@media (min-width: 601px) and (max-width: 992px) {
+    .element-page .header h1 {
+        font-size: 22px;
+    }
+
+    .element-page .card {
+        max-width: 520px;
+        padding: 28px;
+    }
+
+    .element-page .formula {
+        font-size: 32px;
+    }
+}
+
+/* Десктоп: от 993px — используются базовые значения выше */

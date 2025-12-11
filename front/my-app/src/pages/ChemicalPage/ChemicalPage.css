@@ -214,3 +214,95 @@
     font-size: 18px;
     color: #666;
 }
+
+/* Базовая сетка — авто‑адаптив по ширине */
+.chemistry-page .cards-container {
+    display: grid;
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* Телефоны: до 576px */
+@media (max-width: 576px) {
+    .chemistry-page .hero {
+        height: 35vh;
+    }
+
+    .chemistry-page header {
+        padding: 0 12px;
+        height: 50px;
+    }
+
+    .chemistry-page header h1 a img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .chemistry-page .search-section {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px 16px;
+        gap: 12px;
+    }
+
+    .chemistry-page .search-section form {
+        width: 100%;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    }
+
+    .chemistry-page .search-section form input[type="text"] {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .chemistry-page .search-section form button {
+        font-size: 14px;
+        padding: 10px 14px;
+    }
+
+    .chemistry-page main {
+        padding: 24px 12px;
+    }
+
+    .chemistry-page .cards-container {
+        grid-template-columns: 1fr; /* одна колонка */
+        gap: 20px;
+    }
+
+    .chemistry-page .card {
+        min-height: auto;
+        padding: 20px;
+    }
+
+    .chemistry-page .card-img {
+        height: 160px;
+    }
+}
+
+/* Планшеты: 577–992px */
+@media (min-width: 577px) and (max-width: 992px) {
+    .chemistry-page .search-section {
+        padding: 30px 24px;
+    }
+
+    .chemistry-page .search-section form input[type="text"] {
+        width: 260px;
+    }
+
+    .chemistry-page main {
+        padding: 32px 24px;
+    }
+
+    .chemistry-page .cards-container {
+        grid-template-columns: repeat(2, minmax(240px, 1fr)); /* две колонки */
+    }
+}
+
+/* Десктоп: от 993px — три и больше колонок (базовые значения) */
+@media (min-width: 993px) {
+    .chemistry-page .cards-container {
+        grid-template-columns: repeat(3, minmax(260px, 1fr));
+    }
+}
