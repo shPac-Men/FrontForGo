@@ -118,13 +118,13 @@ export const ChemicalPage: FC = () => {
                 >
                   Подробнее
                 </Link>
-                <button 
+                {/* <button 
                   type="button" 
                   className="btn btn-cart"
                   onClick={() => handleAddToMixing(chemical.id)}
                 >
                   В корзину
-                </button>
+                </button> */}
               </div>
             ))
           )}
