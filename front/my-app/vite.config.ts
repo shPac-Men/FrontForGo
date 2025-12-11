@@ -2,11 +2,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// имя репозитория на GitHub, например iu5-student/chem-lab → base: '/chem-lab/'
-const REPO_NAME = 'my-app'; // заменишь на свой
+const REPO_NAME = 'FrontendElements';
 
 export default defineConfig({
-  base: `/${REPO_NAME}/`,   // для GitHub Pages
+  base: `/${REPO_NAME}/`,
   plugins: [
     react(),
     VitePWA({
@@ -22,12 +21,12 @@ export default defineConfig({
         start_url: `/${REPO_NAME}/`,
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: 'pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/pwa-512x512.png',
+            src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
