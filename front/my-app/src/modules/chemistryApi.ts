@@ -1,51 +1,54 @@
 import type { ChemicalElement } from '../types/chemistry';
+import { STATIC_BASE } from '../config/config'
 // ApiResponse больше не нужен, так как бэкенд возвращает чистые данные
 
-const API_BASE = '/api/v1';
+const API_BASE = import.meta.env.VITE_API_BASE ?? '/api/v1';
+
 
 // Mock данные для fallback
 export const CHEMICALS_MOCK: ChemicalElement[] = [
   {
     id: 1,
-    name: "NaCl",
-    description: "Sodium chloride",
+    name: 'NaCl',
+    description: 'Sodium chloride',
     ph: 7.0,
     concentration: 0.15,
-    image: "/staticimages/nacl.jpg"
+    image: `${STATIC_BASE}/nacl.jpg`,
   },
   {
     id: 2,
-    name: "HCl", 
-    description: "Hydrochloric acid",
+    name: 'HCl',
+    description: 'Hydrochloric acid',
     ph: 1.0,
     concentration: 0.5,
-    image: ""
+    image: '',
   },
   {
     id: 3,
-    name: "H2SO4",
-    description: "Sulfuric acid", 
+    name: 'H2SO4',
+    description: 'Sulfuric acid',
     ph: 0.0,
     concentration: 2.0,
-    image: "/staticimages/64352489.jpg"
+    image: `${STATIC_BASE}/64352489.jpg`,
   },
   {
     id: 5,
-    name: "NH3",
-    description: "Ammonia",
+    name: 'NH3',
+    description: 'Ammonia',
     ph: 11.0,
     concentration: 1.0,
-    image: "/staticimages/nh3.jpg"
+    image: `${STATIC_BASE}/nh3.jpg`,
   },
   {
     id: 6,
-    name: "NaOH",
-    description: "Sodium hydroxide",
+    name: 'NaOH',
+    description: 'Sodium hydroxide',
     ph: 14.0,
     concentration: 1.0,
-    image: "/staticimages/NaOH.jpg"
-  }
+    image: `${STATIC_BASE}/NaOH.jpg`,
+  },
 ];
+
 
 // Получить список элементов
 // Изменено: теперь API возвращает массив элементов напрямую, а не { data: { items: [] } }

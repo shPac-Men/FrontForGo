@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getMixingCart, removeFromMixing } from '../../modules/chemistryApi';
 import { ROUTES } from '../../Routes';
 import './MixingPage.css';
+import { STATIC_BASE } from '../../config/config';
 
 
 interface MixingItem {
@@ -102,7 +103,7 @@ export const MixingPage: FC = () => {
     <div className="mixing-page">
       <header>
         <Link to={ROUTES.HOME} className="home-link">  {/* ← Измени */}
-          <img src="/staticimages/image.svg" alt="На главную" />
+          <img src={`${STATIC_BASE}/image.svg`} alt="На главную" />
         </Link>
       </header>
 
@@ -178,7 +179,7 @@ export const MixingPage: FC = () => {
                       className="card-img"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = '/staticimages/default_element.png';
+                        target.src = `${STATIC_BASE}/default_element.png`;
                       }}
                     />
                   </div>

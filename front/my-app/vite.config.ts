@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 const REPO_NAME = 'FrontendElements';
 
 export default defineConfig({
-  base: `/${REPO_NAME}/`,
+  base: '/FrontendElements/',
   plugins: [
     react(),
     VitePWA({

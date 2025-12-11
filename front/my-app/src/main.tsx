@@ -25,29 +25,23 @@ const RootLayout = () => (
   </div>
 );
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        { path: ROUTES.HOME, element: <HomePage /> },
+        { path: ROUTES.CHEMICALS, element: <ChemicalPage /> },
+        { path: ROUTES.ELEMENT_DETAIL, element: <ChemicalDetailPage /> },
+        { path: ROUTES.MIXING, element: <MixingPage /> },
+      ],
+    },
+  ],
   {
-    element: <RootLayout />,
-    children: [
-      {
-        path: ROUTES.HOME,
-        element: <HomePage />,
-      },
-      {
-        path: ROUTES.CHEMICALS,
-        element: <ChemicalPage />,
-      },
-      {
-        path: ROUTES.ELEMENT_DETAIL, // '/chemicals/:id'
-        element: <ChemicalDetailPage />,
-      },
-      {
-        path: ROUTES.MIXING,
-        element: <MixingPage />,
-      },
-    ],
-  },
-]);
+    basename: import.meta.env.BASE_URL,
+  }
+);
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -58,12 +52,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/FrontendElements/sw.js')
-      .catch((err) => {
-        console.error('SW registration failed', err);
-      });
-  });
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker
+//       .register('/FrontendElements/sw.js')
+//       .catch((err) => {
+//         console.error('SW registration failed', err);
+//       });
+//   });
+// }

@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Link } from 'react-router-dom';
 import type { ChemicalElement } from '../../types/chemistry';
-import { getChemicals, addToMixing, getCartCount } from '../../modules/chemistryApi';
+import { getChemicals, getCartCount } from '../../modules/chemistryApi';
 import './ChemicalPage.css';
 import { ROUTES } from '../../Routes';
 import reactSvg from '../../assets/react.svg';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setSearchQuery } from '../../store/filterSlice';
+import { STATIC_BASE } from '../../config/config'
 
 
 const DEFAULT_IMAGE = reactSvg;
@@ -53,20 +54,20 @@ export const ChemicalPage: FC = () => {
     loadChemicals(searchQuery);
   };
 
-  const handleAddToMixing = async (id: number) => {
-    try {
-      const success = await addToMixing(id, 100);
-      if (success) {
-        setCartCount(prev => prev + 1);
-        alert('Реактив добавлен в корзину');
-      } else {
-        alert('Ошибка при добавлении в корзину');
-      }
-    } catch (error) {
-      console.error('Error adding to mixing:', error);
-      alert('Ошибка при добавлении в корзину');
-    }
-  };
+  // const handleAddToMixing = async (id: number) => {
+  //   try {
+  //     const success = await addToMixing(id, 100);
+  //     if (success) {
+  //       setCartCount(prev => prev + 1);
+  //       alert('Реактив добавлен в корзину');
+  //     } else {
+  //       alert('Ошибка при добавлении в корзину');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error adding to mixing:', error);
+  //     alert('Ошибка при добавлении в корзину');
+  //   }
+  // };
 
   return (
     <div className="chemistry-page">
@@ -74,7 +75,7 @@ export const ChemicalPage: FC = () => {
         <header>
           <h1>
             <Link to={ROUTES.HOME}>
-              <img src="/staticimages/image.svg" alt="home" />
+              <img src={`${STATIC_BASE}/image.svg`} alt="home" />
             </Link>
           </h1>
         </header>
@@ -82,7 +83,7 @@ export const ChemicalPage: FC = () => {
 
       <div className="search-section">
         <Link to={ROUTES.MIXING} className="cart-link">
-          <img src="/staticimages/breaker.svg" alt="cart" />
+          <img src={`${STATIC_BASE}/breaker.svg`} alt="cart" />
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
         

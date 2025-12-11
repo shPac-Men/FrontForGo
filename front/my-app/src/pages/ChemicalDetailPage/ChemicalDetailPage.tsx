@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getChemicalById } from '../../modules/chemistryApi';
 import type { ChemicalElement } from '../../types/chemistry';
 import './ChemicalDetailPage.css';
+import { STATIC_BASE } from '../../config/config'
 
 export const ChemicalDetailPage: FC = () => {
   const [chemical, setChemical] = useState<ChemicalElement | null>(null);
@@ -45,7 +46,7 @@ export const ChemicalDetailPage: FC = () => {
     <div className="element-page">
       <div className="header">
         <Link to="/chemicals" className="home-button">
-          <img src="/staticimages/image.svg" alt="На главную" width="40" height="40" />
+          <img src={`${STATIC_BASE}/image.svg`} alt="На главную" width="40" height="40" />
         </Link>
         <h1>Информация о реактиве</h1>
       </div>

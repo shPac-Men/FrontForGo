@@ -14,11 +14,12 @@
 /* Hero секция */
 .chemistry-page .hero {
     height: 50vh;
-    background: url("/staticimages/MainFone.jpg") no-repeat center center;
+    background: url("/FrontendElements/staticimages/MainFone.jpg") no-repeat center center;
     background-size: cover;
     position: relative;
     color: white;
 }
+
 
 .chemistry-page .hero::before {
     content: "";

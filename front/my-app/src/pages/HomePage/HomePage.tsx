@@ -1,8 +1,9 @@
-import type { FC } from "react";
-import { useState } from "react"; // Добавили useState
-import { Link } from "react-router-dom";
+import type { FC } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './HomePage.css';
 import { ROUTES } from '../../Routes';
+import { STATIC_BASE } from '../../config/config';
 
 export const HomePage: FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,12 +18,11 @@ export const HomePage: FC = () => {
 
   return (
     <div className="home-page">
-      {/* Hero секция с картинкой */}
       <section className="hero">
         <header>
           <h1>
-            <Link to="/">
-              <img src="http://localhost:9000/staticimages/image.svg" alt="home" />
+            <Link to={ROUTES.HOME}>
+              <img src={`${STATIC_BASE}/image.svg`} alt="home" />
             </Link>
           </h1>
         </header>
@@ -32,15 +32,12 @@ export const HomePage: FC = () => {
         <div className="welcome-section">
           <h2>Добро пожаловать в химическую лабораторию</h2>
           <p className="subtitle">Исследуйте химические реактивы и создавайте смеси</p>
-          
-          {/* Карусель */}
+
           <div className="carousel-container">
-            <div 
-              className="carousel-track" 
+            <div
+              className="carousel-track"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              
-              {/* Слайд 1: Инструкция */}
               <div className="carousel-slide">
                 <h3>Как это работает?</h3>
                 <div className="instruction-grid">
@@ -63,7 +60,6 @@ export const HomePage: FC = () => {
                 </div>
               </div>
 
-              {/* Слайд 2: Заглушка / Преимущества */}
               <div className="carousel-slide">
                 <h3>История исследований</h3>
                 <div className="placeholder-content">
@@ -75,26 +71,26 @@ export const HomePage: FC = () => {
                   </ul>
                 </div>
               </div>
-
             </div>
 
-            {/* Кнопки управления */}
-            <button className="carousel-btn prev" onClick={prevSlide}>&#10094;</button>
-            <button className="carousel-btn next" onClick={nextSlide}>&#10095;</button>
+            <button className="carousel-btn prev" onClick={prevSlide}>
+              &#10094;
+            </button>
+            <button className="carousel-btn next" onClick={nextSlide}>
+              &#10095;
+            </button>
 
-            {/* Индикаторы (точки) */}
             <div className="carousel-indicators">
-              <span 
-                className={`dot ${currentSlide === 0 ? 'active' : ''}`} 
+              <span
+                className={`dot ${currentSlide === 0 ? 'active' : ''}`}
                 onClick={() => setCurrentSlide(0)}
               />
-              <span 
-                className={`dot ${currentSlide === 1 ? 'active' : ''}`} 
+              <span
+                className={`dot ${currentSlide === 1 ? 'active' : ''}`}
                 onClick={() => setCurrentSlide(1)}
               />
             </div>
           </div>
-
         </div>
       </main>
     </div>
