@@ -1,26 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import mkcert from 'vite-plugin-mkcert';
 
-const isTauri = process.env.TAURI_ENV_PLATFORM !== undefined;
 const REPO_NAME = 'FrontendElements';
+const isTauri = process.env.TAURI_ENV_PLATFORM !== undefined;
 
 export default defineConfig({
-  //base: '/FrontendElements/',
-  base: isTauri ? '/' : '/FrontendElements/',
+  base: isTauri ? '/' : `/${REPO_NAME}/`,
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
-        name: 'ChemLab',
-        short_name: 'ChemLab',
-        description: 'Химическая лаборатория с расчетом смесей',
-        theme_color: '#000000',
-        background_color: '#ffffff',
-        display: 'standalone',
+        name: 'FrontendElements',
+        short_name: 'Elements',
         start_url: `/${REPO_NAME}/`,
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#000000',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -35,14 +33,17 @@ export default defineConfig({
         ],
       },
     }),
+    mkcert(),
   ],
   server: {
     port: 3000,
+    https: {
+      // пустой объект, Vite + mkcert сами подставят key/cert
+    } as any,
     proxy: {
       '/api': {
         target: 'http://localhost:8082',
         changeOrigin: true,
-        rewrite: (path) => path,
       },
       '/staticimages': {
         target: 'http://localhost:9000',
