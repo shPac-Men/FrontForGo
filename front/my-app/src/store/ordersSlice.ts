@@ -30,12 +30,18 @@ export const fetchOrders = createAsyncThunk(
   'orders/fetchOrders',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.mixed.mixedList();
-      // Обычно список лежит в response.data.data или response.data.items
-      // Если response.data это массив, то берем его
-      // Адаптируй эту строчку под реальный ответ бэкенда:
+      const response = await api.mixed.getMixed();
       const data = response.data as any; 
+      
+      // ИСПРАВЛЕНИЕ:
+      // Сначала проверяем, является ли data массивом
+      if (Array.isArray(data)) {
+         return data as Order[];
+      }
+
+      // Если нет, пробуем искать в полях (fallback)
       return (data.items || data.data || []) as Order[];
+      
     } catch (err: any) {
       return rejectWithValue(err.message || 'Ошибка загрузки заявок');
     }
@@ -47,7 +53,7 @@ export const fetchOrderDetail = createAsyncThunk(
   'orders/fetchOrderDetail',
   async (id: number, { rejectWithValue }) => {
     try {
-      const response = await api.mixed.mixedDetail(id);
+      const response = await api.mixed.getMixed2(id);
       // Аналогично, смотрим где лежит объект
       const data = response.data as any;
       return (data.data || data) as Order;

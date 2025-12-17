@@ -1,0 +1,240 @@
+/* Сброс и база */
+.chemistry-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.chemistry-page {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa; /* Светло-серый фон страницы */
+}
+
+/* === HERO SECTION (Фон с колбами) === */
+.chemistry-page .hero {
+  height: 300px; /* Фиксированная высота шапки */
+  background: url("/staticimages/MainFone.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Контент прижат к верху */
+}
+
+/* Затемнение фона */
+.chemistry-page .hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* === HEADER (Кнопка домой и заголовок) === */
+.chemistry-page header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* ВСЁ СЛЕВА */
+  padding: 20px 40px; /* Отступы от краев */
+  width: 100%;
+  height: 80px;
+}
+
+.chemistry-page header h1 {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Расстояние между иконкой и текстом */
+  margin: 0;
+}
+
+/* Иконка дома */
+.chemistry-page header h1 a img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.chemistry-page header h1 a img:hover {
+  transform: scale(1.1);
+}
+
+/* Текст заголовка */
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* === MAIN CONTENT (Контейнер с таблицей) === */
+.orders-container {
+  max-width: 1200px;
+  margin: 0 auto; /* Центрируем контейнер */
+  padding: 40px 20px; /* Отступ сверху от Hero и сбоку */
+  position: relative;
+  z-index: 1;
+}
+
+/* Обертка таблицы (Белая карточка) */
+.table-wrapper {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Чтобы углы таблицы скруглились */
+  width: 100%;
+}
+
+/* Сама Таблица */
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Заголовки колонок */
+.orders-table th {
+  background-color: #e9ecef;
+  color: #495057;
+  font-weight: 600;
+  padding: 16px;
+  border-bottom: 2px solid #dee2e6;
+  white-space: nowrap;
+}
+
+/* Ячейки */
+.orders-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f3f5;
+  color: #212529;
+  vertical-align: middle;
+}
+
+/* Интерактив строк */
+.order-row {
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.order-row:hover {
+  background-color: #f1f3f5;
+}
+
+.order-row:last-child td {
+  border-bottom: none;
+}
+
+/* === Стили внутри ячеек === */
+
+/* Дата и ID */
+.col-date .date-primary {
+  font-weight: bold;
+  color: #343a40;
+  font-size: 16px;
+}
+.col-date .order-id {
+  font-size: 13px;
+  color: #868e96;
+  margin-top: 4px;
+}
+
+/* Центрирование текста */
+.col-center {
+  text-align: center;
+}
+
+/* Жирный шрифт для цифр */
+.font-bold {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Статусы (Бейджи) */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-completed { background: #d3f9d8; color: #2b8a3e; }
+.status-draft     { background: #e7f5ff; color: #1971c2; }
+.status-pending   { background: #fff3bf; color: #f08c00; }
+
+/* Кнопка "Открыть" */
+.btn-small {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid #228be6;
+  color: #228be6;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  background-color: #228be6;
+  color: white;
+}
+
+/* Загрузка и пустые состояния */
+.loading, .no-results {
+  text-align: center;
+  padding: 60px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #228be6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Адаптив (мобилка) */
+@media (max-width: 768px) {
+  .chemistry-page header {
+    padding: 10px 20px;
+  }
+  
+  .orders-container {
+    padding: 20px 10px;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  /* Скрываем менее важные колонки на телефоне */
+  .orders-table th:nth-child(3), .orders-table td:nth-child(3), /* Элементы */
+  .orders-table th:nth-child(4), .orders-table td:nth-child(4)  /* Объем */
+  {
+    display: none;
+  }
+  
+  .orders-table th, .orders-table td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+}

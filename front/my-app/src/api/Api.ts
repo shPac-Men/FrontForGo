@@ -43,6 +43,15 @@ export interface HandlerCreateMixingRequest {
   title: string;
 }
 
+export interface HandlerElementResponse {
+  concentration?: number;
+  description?: string;
+  id?: number;
+  image?: string;
+  name?: string;
+  ph?: number;
+}
+
 export interface HandlerErrorResponse {
   error?: string;
   message?: string;
@@ -61,6 +70,61 @@ export interface HandlerLoginResponse {
   user?: HandlerUserInfo;
 }
 
+export interface HandlerMixedDetailItem {
+  comment?: string;
+  concentration?: number;
+  element_id?: number;
+  image?: string;
+  ph?: number;
+  title?: string;
+  volume?: number;
+}
+
+export interface HandlerMixedDetailResponse {
+  added_water?: number;
+  concentration?: number;
+  creator_login?: string;
+  date_create?: string;
+  date_finish?: string;
+  date_update?: string;
+  id?: number;
+  items?: HandlerMixedDetailItem[];
+  moderator_login?: string;
+  ph?: number;
+  status?: string;
+  total_volume?: number;
+}
+
+export interface HandlerMixedListItem {
+  added_water?: number;
+  concentration?: number;
+  creator_login?: string;
+  date_create?: string;
+  date_finish?: string;
+  date_update?: string;
+  id?: number;
+  moderator_login?: string;
+  ph?: number;
+  status?: string;
+  total_volume?: number;
+}
+
+export interface HandlerMixingItemResponse {
+  concentration?: number;
+  id?: number;
+  image?: string;
+  ph?: number;
+  title?: string;
+  volume?: number;
+}
+
+export interface HandlerMixingResponse {
+  cart_id?: number;
+  items?: HandlerMixingItemResponse[];
+  total_items?: number;
+  user_id?: number;
+}
+
 export interface HandlerRegisterRequest {
   /**
    * @minLength 3
@@ -69,11 +133,6 @@ export interface HandlerRegisterRequest {
   login: string;
   /** @minLength 6 */
   password: string;
-}
-
-export interface HandlerRegisterResponse {
-  message?: string;
-  user?: HandlerUserInfo;
 }
 
 export interface HandlerRemoveFromMixingRequest {
@@ -132,7 +191,45 @@ export interface HandlerUserInfo {
   role?: string;
 }
 
+export interface HandlerUserProfileResponse {
+  id?: number;
+  is_moderator?: boolean;
+  login?: string;
+  role?: string;
+}
+
+export interface ServiceAddToMixingResponse {
+  elementID?: number;
+  message?: string;
+  userID?: number;
+  /** @format float32 */
+  volume?: number;
+}
+
 export type ServiceCompleteMixedRequest = object;
+
+export interface ServiceCompleteMixedResponse {
+  dateUpdate?: string;
+  message?: string;
+  mixedID?: number;
+  status?: string;
+}
+
+export interface ServiceCreateElementResponse {
+  /** @format float32 */
+  concentration?: number;
+  description?: string;
+  id?: number;
+  message?: string;
+  name?: string;
+  /** @format float32 */
+  ph?: number;
+}
+
+export interface ServiceDeleteElementResponse {
+  id?: number;
+  message?: string;
+}
 
 export interface ServiceDeleteFromMixedRequest {
   elementID?: number;
@@ -141,6 +238,24 @@ export interface ServiceDeleteFromMixedRequest {
 
 export interface ServiceDeleteMixedRequest {
   hardDelete?: boolean;
+}
+
+export interface ServiceElementResponse {
+  /** @format float32 */
+  concentration?: number;
+  description?: string;
+  id?: number;
+  image?: string;
+  message?: string;
+  name?: string;
+  /** @format float32 */
+  ph?: number;
+}
+
+export interface ServiceUploadImageResponse {
+  id?: number;
+  image?: string;
+  message?: string;
 }
 
 import type {
@@ -342,7 +457,7 @@ export class Api<
      */
     mixedList: (
       query?: {
-        /** Filter by status (draft, pending, completed) */
+        /** Filter by status */
         status?: string;
         /** Filter by creator login */
         creator?: string;
@@ -353,7 +468,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerMixedListItem[], HandlerErrorResponse>({
         path: `/admin/mixed`,
         method: "GET",
         query: query,
@@ -396,7 +511,7 @@ export class Api<
      * @secure
      */
     mixedDetail: (id: number, params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerMixedDetailResponse, HandlerErrorResponse>({
         path: `/admin/mixed/${id}`,
         method: "GET",
         secure: true,
@@ -419,13 +534,12 @@ export class Api<
       request: HandlerUpdateMixedRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/admin/mixed/${id}`,
         method: "PUT",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -443,13 +557,12 @@ export class Api<
       request: ServiceDeleteMixedRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/admin/mixed/${id}`,
         method: "DELETE",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -467,7 +580,7 @@ export class Api<
       request: ServiceCompleteMixedRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceCompleteMixedResponse, HandlerErrorResponse>({
         path: `/admin/mixed/${id}/complete`,
         method: "PUT",
         body: request,
@@ -491,13 +604,12 @@ export class Api<
       request: ServiceDeleteFromMixedRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/admin/mixed/${id}/items`,
         method: "DELETE",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -511,7 +623,7 @@ export class Api<
      * @secure
      */
     usersList: (params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerUserProfileResponse[], HandlerErrorResponse>({
         path: `/admin/users`,
         method: "GET",
         secure: true,
@@ -530,7 +642,7 @@ export class Api<
      * @secure
      */
     usersDetail: (id: number, params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerUserProfileResponse, HandlerErrorResponse>({
         path: `/admin/users/${id}`,
         method: "GET",
         secure: true,
@@ -553,13 +665,12 @@ export class Api<
       request: HandlerUpdateUserRoleRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/admin/users/${id}/role`,
         method: "PUT",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
   };
@@ -592,12 +703,11 @@ export class Api<
      * @secure
      */
     logoutCreate: (params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/auth/logout`,
         method: "POST",
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -611,7 +721,7 @@ export class Api<
      * @secure
      */
     profileList: (params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerUserProfileResponse, HandlerErrorResponse>({
         path: `/auth/profile`,
         method: "GET",
         secure: true,
@@ -633,13 +743,12 @@ export class Api<
       request: HandlerUpdateUserRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/auth/profile`,
         method: "PUT",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
@@ -655,7 +764,7 @@ export class Api<
       request: HandlerRegisterRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerRegisterResponse, HandlerErrorResponse>({
+      this.request<HandlerUserInfo, HandlerErrorResponse>({
         path: `/auth/register`,
         method: "POST",
         body: request,
@@ -680,7 +789,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<Record<string, any>, HandlerErrorResponse>({
+      this.request<HandlerElementResponse[], HandlerErrorResponse>({
         path: `/elements`,
         method: "GET",
         query: query,
@@ -702,7 +811,7 @@ export class Api<
       request: HandlerCreateElementRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceCreateElementResponse, HandlerErrorResponse>({
         path: `/elements`,
         method: "POST",
         body: request,
@@ -721,7 +830,7 @@ export class Api<
      * @request GET:/elements/{id}
      */
     elementsDetail: (id: number, params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerElementResponse, HandlerErrorResponse>({
         path: `/elements/${id}`,
         method: "GET",
         type: ContentType.Json,
@@ -743,7 +852,7 @@ export class Api<
       request: HandlerUpdateElementRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceElementResponse, HandlerErrorResponse>({
         path: `/elements/${id}`,
         method: "PUT",
         body: request,
@@ -763,7 +872,7 @@ export class Api<
      * @secure
      */
     elementsDelete: (id: number, params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceDeleteElementResponse, HandlerErrorResponse>({
         path: `/elements/${id}`,
         method: "DELETE",
         secure: true,
@@ -784,12 +893,12 @@ export class Api<
     imageCreate: (
       id: number,
       data: {
-        /** Image file (JPEG, PNG, GIF, WebP). Max 5MB */
+        /** Image file */
         image: File;
       },
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceUploadImageResponse, HandlerErrorResponse>({
         path: `/elements/${id}/image`,
         method: "POST",
         body: data,
@@ -804,12 +913,12 @@ export class Api<
      * @description Get list of all mixing orders created by current user
      *
      * @tags mixed
-     * @name MixedList
+     * @name GetMixed
      * @summary Get user's mixing orders
-     * @request GET:/mixed
+     * @request GET:/mixed/my
      * @secure
      */
-    mixedList: (
+    getMixed: (
       query?: {
         /** Filter by status (draft, pending, completed) */
         status?: string;
@@ -820,8 +929,8 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
-        path: `/mixed`,
+      this.request<HandlerMixedListItem[], HandlerErrorResponse>({
+        path: `/mixed/my`,
         method: "GET",
         query: query,
         secure: true,
@@ -834,14 +943,16 @@ export class Api<
      * @description Get detailed info about user's specific mixing order
      *
      * @tags mixed
-     * @name MixedDetail
+     * @name GetMixed2
      * @summary Get user's mixing order by ID
-     * @request GET:/mixed/{id}
+     * @request GET:/mixed/my/{id}
+     * @originalName getMixed
+     * @duplicate
      * @secure
      */
-    mixedDetail: (id: number, params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
-        path: `/mixed/${id}`,
+    getMixed2: (id: number, params: RequestParams = {}) =>
+      this.request<HandlerMixedDetailResponse, HandlerErrorResponse>({
+        path: `/mixed/my/${id}`,
         method: "GET",
         secure: true,
         type: ContentType.Json,
@@ -860,7 +971,7 @@ export class Api<
      * @secure
      */
     mixingList: (params: RequestParams = {}) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<HandlerMixingResponse, HandlerErrorResponse>({
         path: `/mixing`,
         method: "GET",
         secure: true,
@@ -899,7 +1010,7 @@ export class Api<
       request: HandlerAddToMixingRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<ServiceAddToMixingResponse, HandlerErrorResponse>({
         path: `/mixing/items`,
         method: "POST",
         body: request,
@@ -922,13 +1033,12 @@ export class Api<
       request: HandlerRemoveFromMixingRequest,
       params: RequestParams = {},
     ) =>
-      this.request<HandlerSuccessResponse, HandlerErrorResponse>({
+      this.request<void, HandlerErrorResponse>({
         path: `/mixing/remove`,
         method: "POST",
         body: request,
         secure: true,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
   };
