@@ -1,0 +1,158 @@
+/* src/pages/Auth/AuthPage.css */
+
+/* Базовый контейнер страницы (как .element-page) */
+.auth-page {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #222;
+    min-height: 100vh;
+    display: flex; /* Центрируем карточку по вертикали и горизонтали */
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Карточка входа (как .card) */
+.auth-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    background: #fafafa;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* Ссылка "домой" (логотип) */
+.home-link {
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.home-link:hover {
+    transform: scale(1.05);
+}
+
+/* Заголовок формы (как .formula) */
+.auth-card h2 {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+/* Форма */
+form {
+    width: 100%;
+}
+
+/* Группы полей (как .property) */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666; /* Как .property-title */
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #eee; /* Как .property border */
+    border-radius: 6px;
+    background: #fff;
+    font-size: 16px;
+    color: #222;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #000;
+}
+
+/* Ошибки */
+.error-msg {
+    color: #d32f2f;
+    background: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Кнопка (как .btn) */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background: #444;
+}
+
+.btn-primary:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Футер (ссылка на регистрацию) */
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.auth-footer a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивность (как в примере) */
+@media (max-width: 600px) {
+    .auth-card {
+        padding: 20px;
+        margin: 20px;
+        box-shadow: none; /* Упрощаем на мобильном */
+        border: none;
+        background: #fff;
+    }
+    
+    .auth-card h2 {
+        font-size: 24px;
+    }
+}

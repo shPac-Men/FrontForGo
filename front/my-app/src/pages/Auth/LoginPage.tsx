@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks"; // Пров�
 import { login } from "../../store/authSlice"; // Проверь путь к authSlice
 import { ROUTES } from "../../Routes";
 import { STATIC_BASE } from "../../config/config";
-//import "./AuthPage.css"; // Создай один css для всех auth-страниц или используй инлайн
+import "./AuthPage.css"; // Создай один css для всех auth-страниц или используй инлайн
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();

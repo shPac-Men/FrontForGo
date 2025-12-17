@@ -1,310 +1,366 @@
-/* Сброс для всего компонента */
 .chemistry-page * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
+
 .chemistry-page {
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: #fff;
+height: 100%;
+font-family: Arial, sans-serif;
+background: #fff;
 }
+
 
 /* Hero секция */
 .chemistry-page .hero {
-    height: 50vh;
-    background: url("/staticimages/MainFone.jpg") no-repeat center center;
-    /* url("/FrontendElements/staticimages/MainFone.jpg") no-repeat center center; */
-    background-size: cover;
-    position: relative;
-    color: white;
+height: 50vh;
+background: url("/staticimages/MainFone.jpg") no-repeat center center;
+/* url("/FrontendElements/staticimages/MainFone.jpg") no-repeat center center; */
+background-size: cover;
+position: relative;
+color: white;
 }
+
 
 
 .chemistry-page .hero::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 0;
-    pointer-events: none;
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0,0,0,0.5);
+z-index: 0;
+pointer-events: none;
 }
+
 
 .chemistry-page header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    height: 60px;
-    z-index: 1;
+position: relative;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0 20px;
+height: 60px;
+z-index: 1;
 }
 
+
 .chemistry-page header h1 a img {
-    width: 50px;
-    height: 50px;
-    display: block;
+width: 50px;
+height: 50px;
+display: block;
 }
+
 
 /* Секция поиска с корзиной */
 .chemistry-page .search-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 40px 20px;
-    background: #fff;
-    width: 100%;
+display: flex;
+align-items: center;
+justify-content: center; /* Центрируем содержимое по горизонтали */
+gap: 20px;
+padding: 40px 20px;
+background: #fff;
+width: 100%; /* Ширина 100% от родителя */
+box-sizing: border-box; /* Важно, чтобы padding не расширял блок за 100% */
 }
-
 /* Ссылка корзины */
 .chemistry-page .cart-link {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: all 0.2s;
-    position: relative;
+display: flex;
+align-items: center;
+padding: 12px;
+background: #f8f9fa;
+border: 1px solid #dee2e6;
+border-radius: 6px;
+text-decoration: none;
+transition: all 0.2s;
+position: relative;
 }
+
 
 .chemistry-page .cart-link:hover {
-    background: #e9ecef;
-    border-color: #adb5bd;
+background: #e9ecef;
+border-color: #adb5bd;
 }
 
+
 .chemistry-page .cart-link img {
-    width: 24px;
-    height: 24px;
-    transform: scale(1.3);
+width: 24px;
+height: 24px;
+transform: scale(1.3);
 }
+
 
 /* Стили для счетчика корзины */
 .chemistry-page .cart-count {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: #ff4444;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+position: absolute;
+top: -8px;
+right: -8px;
+background: #ff4444;
+color: white;
+border-radius: 50%;
+width: 20px;
+height: 20px;
+font-size: 12px;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: center;
+line-height: 1;
+border: 2px solid white;
+box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
 
 /* Форма поиска */
 .chemistry-page .search-section form {
-    display: flex;
-    background: white;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+display: flex;
+background: white;
+border-radius: 6px;
+overflow: hidden;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+max-width: 400px; /* или width: auto */
+flex-shrink: 0; /* Не даем сжиматься */
+
+
 }
+
 
 .chemistry-page .search-section form input[type="text"] {
-    padding: 12px;
-    width: 300px;
-    border: none;
-    outline: none;
-    font-size: 16px;
+padding: 12px;
+width: 300px;
+border: none;
+outline: none;
+font-size: 16px;
 }
+
 
 .chemistry-page .search-section form button {
-    padding: 12px 20px;
-    border: none;
-    background: #333;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.2s;
+padding: 12px 20px;
+border: none;
+background: #333;
+color: white;
+cursor: pointer;
+font-size: 16px;
+transition: background 0.2s;
 }
 
+
 .chemistry-page .search-section form button:hover {
-    background: #555;
+background: #555;
 }
+
 
 /* Основная часть */
 .chemistry-page main {
-    background: white;
-    padding: 40px 20px;
-    text-align: center;
+background: white;
+padding: 40px 20px;
+text-align: center;
 }
+
 
 /* Карточки - 3 колонки и больше */
 .chemistry-page .cards-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin: 0 auto;
-    max-width: 1200px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 30px;
+margin: 0 auto;
+max-width: 1200px;
 }
+
 
 .chemistry-page .card {
-    background: #fff;
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
-    padding: 25px;
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    min-height: 380px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+background: #fff;
+border: 1px solid #eaeaea;
+border-radius: 8px;
+padding: 25px;
+text-align: center;
+transition: transform 0.2s, box-shadow 0.2s;
+min-height: 380px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
 }
+
 
 .chemistry-page .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+transform: translateY(-5px);
+box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
+
 
 .chemistry-page .card-img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    margin-bottom: 16px;
+width: 100%;
+height: 180px;
+object-fit: contain;
+margin-bottom: 16px;
 }
+
 
 .chemistry-page .card h3 {
-    font-size: 20px;
-    margin: 12px 0;
-    font-weight: 600;
+font-size: 20px;
+margin: 12px 0;
+font-weight: 600;
 }
+
 
 .chemistry-page .card p {
-    font-size: 16px;
-    margin: 6px 0;
-    color: #333;
+font-size: 16px;
+margin: 6px 0;
+color: #333;
 }
+
 
 .chemistry-page .btn {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 10px 18px;
-    background: #000;
-    color: #fff;
-    text-decoration: none;
-    font-size: 15px;
-    border-radius: 4px;
-    transition: background 0.2s;
-    border: none;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
+display: inline-block;
+margin-top: 12px;
+padding: 10px 18px;
+background: #000;
+color: #fff;
+text-decoration: none;
+font-size: 15px;
+border-radius: 4px;
+transition: background 0.2s;
+border: none;
+cursor: pointer;
+font-family: Arial, sans-serif;
 }
+
 
 .chemistry-page .btn:hover {
-    background: #444;
+background: #444;
 }
 
-.chemistry-page .loading, 
+
+.chemistry-page .loading,
 .chemistry-page .no-results {
-    grid-column: 1 / -1;
+grid-column: 1 / -1;
+text-align: center;
+padding: 40px;
+font-size: 18px;
+color: #666;
+}
+
+.chemistry-page .card-actions {
+    display: flex;
+    flex-direction: column; /* Вертикально */
+    gap: 8px;              /* Отступ между кнопками */
+    margin-top: auto;      /* Прижать к низу карточки */
+    width: 100%;
+}
+
+.chemistry-page .card-actions .btn {
+    width: 100%;
     text-align: center;
-    padding: 40px;
-    font-size: 18px;
-    color: #666;
+    margin-top: 0; /* Убираем старый margin, так как теперь есть gap */
 }
 
 /* Базовая сетка — авто‑адаптив по ширине */
 .chemistry-page .cards-container {
-    display: grid;
-    gap: 30px;
-    margin: 0 auto;
-    max-width: 1200px;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+display: grid;
+gap: 30px;
+margin: 0 auto;
+max-width: 1200px;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
+
 
 /* Телефоны: до 576px */
 @media (max-width: 576px) {
-    .chemistry-page .hero {
-        height: 35vh;
-    }
-
-    .chemistry-page header {
-        padding: 0 12px;
-        height: 50px;
-    }
-
-    .chemistry-page header h1 a img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .chemistry-page .search-section {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 20px 16px;
-        gap: 12px;
-    }
-
-    .chemistry-page .search-section form {
-        width: 100%;
-        box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-    }
-
-    .chemistry-page .search-section form input[type="text"] {
-        width: 100%;
-        font-size: 14px;
-    }
-
-    .chemistry-page .search-section form button {
-        font-size: 14px;
-        padding: 10px 14px;
-    }
-
-    .chemistry-page main {
-        padding: 24px 12px;
-    }
-
-    .chemistry-page .cards-container {
-        grid-template-columns: 1fr; /* одна колонка */
-        gap: 20px;
-    }
-
-    .chemistry-page .card {
-        min-height: auto;
-        padding: 20px;
-    }
-
-    .chemistry-page .card-img {
-        height: 160px;
-    }
+.chemistry-page .hero {
+height: 35vh;
 }
+
+
+.chemistry-page header {
+padding: 0 12px;
+height: 50px;
+}
+
+
+.chemistry-page header h1 a img {
+width: 40px;
+height: 40px;
+}
+
+
+.chemistry-page .search-section {
+flex-direction: column;
+align-items: stretch;
+padding: 20px 16px;
+gap: 12px;
+}
+
+
+.chemistry-page .search-section form {
+width: 100%;
+box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+
+
+.chemistry-page .search-section form input[type="text"] {
+width: 100%;
+font-size: 14px;
+}
+
+
+.chemistry-page .search-section form button {
+font-size: 14px;
+padding: 10px 14px;
+}
+
+
+.chemistry-page main {
+padding: 24px 12px;
+}
+
+
+.chemistry-page .cards-container {
+grid-template-columns: 1fr; /* одна колонка */
+gap: 20px;
+}
+
+
+.chemistry-page .card {
+min-height: auto;
+padding: 20px;
+}
+
+
+.chemistry-page .card-img {
+height: 160px;
+}
+}
+
 
 /* Планшеты: 577–992px */
 @media (min-width: 577px) and (max-width: 992px) {
-    .chemistry-page .search-section {
-        padding: 30px 24px;
-    }
-
-    .chemistry-page .search-section form input[type="text"] {
-        width: 260px;
-    }
-
-    .chemistry-page main {
-        padding: 32px 24px;
-    }
-
-    .chemistry-page .cards-container {
-        grid-template-columns: repeat(2, minmax(240px, 1fr)); /* две колонки */
-    }
+.chemistry-page .search-section {
+padding: 30px 24px;
 }
+
+
+.chemistry-page .search-section form input[type="text"] {
+width: 260px;
+}
+
+
+.chemistry-page main {
+padding: 32px 24px;
+}
+
+
+.chemistry-page .cards-container {
+grid-template-columns: repeat(2, minmax(240px, 1fr)); /* две колонки */
+}
+}
+
 
 /* Десктоп: от 993px — три и больше колонок (базовые значения) */
 @media (min-width: 993px) {
-    .chemistry-page .cards-container {
-        grid-template-columns: repeat(3, minmax(260px, 1fr));
-    }
+.chemistry-page .cards-container {
+grid-template-columns: repeat(3, minmax(260px, 1fr));
+}
 }

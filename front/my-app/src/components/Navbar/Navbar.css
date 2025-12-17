@@ -1,9 +1,10 @@
 .navbar {
   background-color: #333;
   padding: 1rem 0;
-  position: sticky;  /* ← Исправлено: position: sticky */
-  top: 0;            /* ← Добавлено: top: 0 */
+  position: sticky;
+  top: 0;
   z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .nav-container {
@@ -50,4 +51,84 @@
 .nav-links li.active a {
   color: #007bff;
   font-weight: 600;
+}
+
+/* --- АВТОРИЗАЦИЯ --- */
+
+.nav-auth {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Кнопки Вход/Регистрация (горизонтально, 16px) */
+.auth-buttons {
+  display: flex;
+  flex-direction: row; 
+  gap: 20px;           
+  align-items: center;
+}
+
+.nav-btn-login,
+.nav-btn-register {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;      /* Размер как в меню */
+  font-weight: normal;
+  border: none;
+  padding: 0;
+  background: none;
+  transition: color 0.2s;
+}
+
+.nav-btn-login:hover,
+.nav-btn-register:hover {
+  color: #007bff;
+}
+
+/* Меню пользователя (когда уже вошел) */
+.auth-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+.auth-username {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 16px;
+}
+
+.auth-dropdown {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.auth-dropdown a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.auth-dropdown a:hover {
+  color: white;
+}
+
+.btn-logout-link {
+  background: none;
+  border: 1px solid #ff4d4f;
+  border-radius: 4px;
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 10px;
+  transition: all 0.2s;
+}
+
+.btn-logout-link:hover {
+  background: #ff4d4f;
+  color: white;
 }

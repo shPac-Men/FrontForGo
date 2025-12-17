@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { register } from "../../store/authSlice";
 import { ROUTES } from "../../Routes";
 import { STATIC_BASE } from "../../config/config";
-//import "./AuthPage.css";
+import "./AuthPage.css";
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
