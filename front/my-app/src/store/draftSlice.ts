@@ -6,26 +6,26 @@ import { logout } from './authSlice';
 // Пока сделаем any, чтобы заработало
 
 
-export const fetchDraft = createAsyncThunk('draft/fetch', async () => {
+export const fetchMixing = createAsyncThunk('draft/fetch', async () => {
   const res = await api.mixing.mixingList();
   return res.data; 
 });
 
-export const addToDraft = createAsyncThunk('draft/add', async (params: { element_id: number, volume: number }) => {
+export const addToMixing = createAsyncThunk('draft/add', async (params: { element_id: number, volume: number }) => {
   await api.mixing.itemsCreate(params);
   
 });
 
-export const removeFromDraft = createAsyncThunk('draft/remove', async (element_id: number) => {
+export const removeFromMixing = createAsyncThunk('draft/remove', async (element_id: number) => {
   await api.mixing.removeCreate({ element_id });
 });
 
-const draftSlice = createSlice({
+const MixingSlice = createSlice({
   name: 'draft',
   initialState: { items: [] as any[], loading: false },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchDraft.fulfilled, (state, action) => {
+    builder.addCase(fetchMixing.fulfilled, (state, action) => {
       // Подстрой под структуру ответа: action.payload.data или items
       state.items = (action.payload as any).items ?? [];
     });
@@ -36,4 +36,4 @@ const draftSlice = createSlice({
   }
 });
 
-export const draftReducer = draftSlice.reducer;
+export const MixingReducer = MixingSlice.reducer;

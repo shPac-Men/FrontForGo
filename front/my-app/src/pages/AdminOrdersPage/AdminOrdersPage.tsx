@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchAllOrders, updateOrderStatus } from '../../store/ordersSlice';
+import { fetchAllMixed, updateMixedStatus } from '../../store/ordersSlice';
 import { ROUTES } from '../../Routes';
 import { STATIC_BASE } from '../../config/config';
 import { api } from '../../api';
@@ -40,7 +40,7 @@ export const AdminOrdersPage = () => {
     if (dateFrom) filters.date_from = dateFrom;
     if (dateTo) filters.date_to = dateTo;
     
-    dispatch(fetchAllOrders(filters));
+    dispatch(fetchAllMixed(filters));
   }, [statusFilter, dateFrom, dateTo, dispatch]);
 
   // Первоначальная загрузка и short polling
@@ -114,7 +114,7 @@ export const AdminOrdersPage = () => {
     } else {
       // Для других статусов просто обновляем статус
       try {
-        await dispatch(updateOrderStatus({ orderId, status: newStatus }));
+        await dispatch(updateMixedStatus({ orderId, status: newStatus }));
         loadOrders();
       } catch (error: any) {
         console.error('Ошибка обновления статуса:', error);

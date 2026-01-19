@@ -39,7 +39,6 @@ export const loadProfile = createAsyncThunk<HandlerUserInfo>(
   "auth/loadProfile",
   async () => {
     const res = await api.auth.profileList();
-    // Адаптируйте под структуру ответа вашего бэка
     return (res.data as any).data ?? res.data ?? {};
   }
 );
@@ -51,7 +50,7 @@ export const updateProfile = createAsyncThunk<void, HandlerUpdateUserRequest>(
   }
 );
 
-// --- ИСПРАВЛЕННЫЙ LOGOUT ---
+
 export const logout = createAsyncThunk(
   "auth/logout", 
   async (_, { dispatch }) => { // Добавляем { dispatch }
@@ -61,7 +60,6 @@ export const logout = createAsyncThunk(
     localStorage.removeItem(TOKEN_KEY);
     api.setSecurityData(null);
     
-    // Сбрасываем фильтры при выходе
     console.log("AUTH: Dispatching resetFilters");
     dispatch(resetFilters());
   }

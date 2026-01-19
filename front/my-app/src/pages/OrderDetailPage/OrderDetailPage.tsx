@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchOrderDetail } from '../../store/ordersSlice';
+import { fetchMixedDetail } from '../../store/ordersSlice';
 import { ROUTES } from '../../Routes';
 import { STATIC_BASE } from '../../config/config';
 
@@ -12,7 +12,7 @@ export const OrderDetailPage = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchOrderDetail(parseInt(id)));
+      dispatch(fetchMixedDetail(parseInt(id)));
     }
   }, [dispatch, id]);
 

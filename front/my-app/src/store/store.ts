@@ -5,7 +5,7 @@ import { chemicalsReducer } from "./chemicalsSlice";
 import { ordersReducer } from "./ordersSlice";
 
 import { authReducer } from "./authSlice";
-import { draftReducer } from "./draftSlice";
+import { MixingReducer } from "./draftSlice";
 
 
 export const store = configureStore({
@@ -13,7 +13,7 @@ export const store = configureStore({
     filter: filterReducer,
     chemicals: chemicalsReducer,
     auth: authReducer,
-    draft: draftReducer,
+    draft: MixingReducer,
     orders: ordersReducer,
   },
 });

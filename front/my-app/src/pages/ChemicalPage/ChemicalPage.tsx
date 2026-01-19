@@ -8,7 +8,7 @@ import { ROUTES } from '../../Routes';
 import reactSvg from '../../assets/react.svg';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setSearchQuery } from '../../store/filterSlice';
-import { addToDraft } from '../../store/draftSlice';
+import { addToMixing } from '../../store/draftSlice';
 import { STATIC_BASE } from '../../config/config';
 import { api } from '../../api';
 
@@ -160,7 +160,7 @@ export const ChemicalPage: FC = () => {
     }
 
     try {
-      await dispatch(addToDraft({ element_id: id, volume: 100 })).unwrap();
+      await dispatch(addToMixing({ element_id: id, volume: 100 })).unwrap();
       await loadCartCount();
     } catch (error) {
       alert('Ошибка при добавлении');

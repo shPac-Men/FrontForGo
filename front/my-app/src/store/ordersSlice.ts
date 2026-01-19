@@ -26,20 +26,20 @@ const initialState: OrdersState = {
 };
 
 // 1. Получение списка заявок (для обычных пользователей)
-export const fetchOrders = createAsyncThunk(
+
+export const fetchMixed = createAsyncThunk(
   'orders/fetchOrders',
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.mixed.getMixed();
       const data = response.data as any; 
       
-      // ИСПРАВЛЕНИЕ:
-      // Сначала проверяем, является ли data массивом
+    
       if (Array.isArray(data)) {
          return data as Order[];
       }
 
-      // Если нет, пробуем искать в полях (fallback)
+  
       return (data.items || data.data || []) as Order[];
       
     } catch (err: any) {
@@ -49,7 +49,7 @@ export const fetchOrders = createAsyncThunk(
 );
 
 // Получение списка всех заявок (для модератора/админа)
-export const fetchAllOrders = createAsyncThunk(
+export const fetchAllMixed = createAsyncThunk(
   'orders/fetchAllOrders',
   async (filters: { status?: string; date_from?: string; date_to?: string } | undefined, { rejectWithValue }) => {
     try {
@@ -73,7 +73,7 @@ export const fetchAllOrders = createAsyncThunk(
 );
 
 // Обновление статуса заявки
-export const updateOrderStatus = createAsyncThunk(
+export const updateMixedStatus = createAsyncThunk(
   'orders/updateOrderStatus',
   async ({ orderId, status }: { orderId: number; status: string }, { rejectWithValue }) => {
     try {
@@ -86,7 +86,7 @@ export const updateOrderStatus = createAsyncThunk(
 );
 
 // 2. Получение деталей одной заявки
-export const fetchOrderDetail = createAsyncThunk(
+export const fetchMixedDetail = createAsyncThunk(
   'orders/fetchOrderDetail',
   async (id: number, { rejectWithValue }) => {
     try {
@@ -100,7 +100,7 @@ export const fetchOrderDetail = createAsyncThunk(
   }
 );
 
-const ordersSlice = createSlice({
+const MixedsSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
@@ -110,35 +110,35 @@ const ordersSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Список (обычные пользователи)
-    builder.addCase(fetchOrders.pending, (state) => {
+    builder.addCase(fetchMixed.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+    builder.addCase(fetchMixed.fulfilled, (state, action) => {
       state.loading = false;
       state.list = action.payload;
     });
-    builder.addCase(fetchOrders.rejected, (state, action) => {
+    builder.addCase(fetchMixed.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
 
     // Список всех заявок (админ/модератор)
-    builder.addCase(fetchAllOrders.pending, (state) => {
+    builder.addCase(fetchAllMixed.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchAllOrders.fulfilled, (state, action) => {
+    builder.addCase(fetchAllMixed.fulfilled, (state, action) => {
       state.loading = false;
       state.list = action.payload;
     });
-    builder.addCase(fetchAllOrders.rejected, (state, action) => {
+    builder.addCase(fetchAllMixed.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
 
     // Обновление статуса
-    builder.addCase(updateOrderStatus.fulfilled, (state, action) => {
+    builder.addCase(updateMixedStatus.fulfilled, (state, action) => {
       const order = state.list.find(o => o.id === action.payload.orderId);
       if (order) {
         order.status = action.payload.status;
@@ -146,20 +146,20 @@ const ordersSlice = createSlice({
     });
 
     // Детали
-    builder.addCase(fetchOrderDetail.pending, (state) => {
+    builder.addCase(fetchMixedDetail.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchOrderDetail.fulfilled, (state, action) => {
+    builder.addCase(fetchMixedDetail.fulfilled, (state, action) => {
       state.loading = false;
       state.currentOrder = action.payload;
     });
-    builder.addCase(fetchOrderDetail.rejected, (state, action) => {
+    builder.addCase(fetchMixedDetail.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
   },
 });
 
-export const { clearCurrentOrder } = ordersSlice.actions;
-export const ordersReducer = ordersSlice.reducer;
+export const { clearCurrentOrder } = MixedsSlice.actions;
+export const ordersReducer = MixedsSlice.reducer;
