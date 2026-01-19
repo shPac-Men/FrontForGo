@@ -350,6 +350,38 @@
     font-size: 18px;
 }
 
+.mixing-page .save-changes-btn {
+    padding: 12px 24px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+.mixing-page .save-changes-btn:hover:not(:disabled) {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(40, 167, 69, 0.4);
+}
+
+.mixing-page .save-changes-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.mixing-page .save-changes-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -418,6 +450,15 @@
     .mixing-page .card-img {
         width: 100px;
         height: 100px;
+    }
+        .mixing-page .temperature-section > div:last-child {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .mixing-page .temperature-section > div:last-child .btn {
+        width: 100%;
     }
 }
 

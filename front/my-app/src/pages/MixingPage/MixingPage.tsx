@@ -266,6 +266,12 @@ export const MixingPage: FC = () => {
     }
   };
 
+  // Обработчик для кнопки "Сохранить изменения"
+  const handleSaveChanges = () => {
+    console.log("изменения сохранены");
+    alert("изменения сохранены");
+  };
+
   return (
     <div className="mixing-page">
       <header>
@@ -287,6 +293,14 @@ export const MixingPage: FC = () => {
         
         {/* Блок с кнопками */}
         <div style={{ display: 'flex', gap: '1rem' }}>
+            <button 
+              type="button" 
+              className="btn save-changes-btn" 
+              onClick={handleSaveChanges}
+              disabled={items.length === 0}
+            >
+              Сохранить изменения
+            </button>
             <button type="button" className="btn calculate-btn" onClick={handleCalculate} disabled={items.length === 0}>Рассчитать pH</button>
             <button type="button" className="btn" onClick={handleClearCart} disabled={items.length === 0}>Очистить</button>
         </div>
