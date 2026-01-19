@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import type { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import type { ChemicalElement } from '../../types/chemistry';
-import { getChemicals } from '../../modules/chemistryApi'; 
+import { getChemicals } from '../../modules/chemistryApi';
 import './ChemicalPage.css';
 import { ROUTES } from '../../Routes';
 import reactSvg from '../../assets/react.svg';
@@ -14,92 +14,102 @@ import { api } from '../../api';
 
 const DEFAULT_IMAGE = reactSvg;
 
+type CartIconEl = HTMLElement & {
+  count?: number;
+  staticBase?: string;
+  icon?: string;
+};
+
 export const ChemicalPage: FC = () => {
   const [chemicals, setChemicals] = useState<ChemicalElement[]>([]);
   const [loading, setLoading] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+
   const [cartIconLoaded, setCartIconLoaded] = useState(false);
   const [errorLoadingMicrofrontend, setErrorLoadingMicrofrontend] = useState(false);
-  
+
   const cartContainerRef = useRef<HTMLDivElement>(null);
+  const cartElRef = useRef<CartIconEl | null>(null);
   const scriptRef = useRef<HTMLScriptElement | null>(null);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { user } = useAppSelector((state) => state.auth);
-  const searchQuery = useAppSelector((state) => state.filter.query); 
-  
+  const searchQuery = useAppSelector((state) => state.filter.query);
+
   const MICROFRONTEND_URL = '/FrontendElements/cart-icon.iife.js';
-  
+
+  // 1) загрузка скрипта (один раз)
   useEffect(() => {
-    const loadCartIconMicrofrontend = async () => {
-      try {
-        if (customElements.get('cart-icon')) {
-          setCartIconLoaded(true);
-          return;
-        }
+    if (customElements.get('cart-icon')) {
+      setCartIconLoaded(true);
+      return;
+    }
 
-        if (scriptRef.current) return;
+    if (scriptRef.current) return;
 
-        const script = document.createElement('script');
-        scriptRef.current = script;
-        script.src = MICROFRONTEND_URL;
-        script.async = true;
-        
-        script.onload = () => {
-          setCartIconLoaded(true);
-          setErrorLoadingMicrofrontend(false);
-        };
-        
-        script.onerror = () => {
-          setErrorLoadingMicrofrontend(true);
-          setCartIconLoaded(false);
-          scriptRef.current = null;
-        };
-        
-        document.head.appendChild(script);
-        
-      } catch (error) {
-        setErrorLoadingMicrofrontend(true);
-      }
+    const script = document.createElement('script');
+    scriptRef.current = script;
+    script.src = MICROFRONTEND_URL;
+    script.async = true;
+
+    script.onload = () => {
+      setCartIconLoaded(true);
+      setErrorLoadingMicrofrontend(false);
     };
 
-    loadCartIconMicrofrontend();
+    script.onerror = () => {
+      setErrorLoadingMicrofrontend(true);
+      setCartIconLoaded(false);
+      scriptRef.current = null;
+    };
+
+    document.head.appendChild(script);
   }, []);
 
+  // 2) создать cart-icon (один раз) + подписаться на событие
   useEffect(() => {
-    if (!cartContainerRef.current || !cartIconLoaded) return;
-    
-    cartContainerRef.current.innerHTML = '';
-    
-    const cartElement = document.createElement('cart-icon');
-    
-    // 🔥 ПРАВИЛЬНЫЙ ПУТЬ: /FrontendElements/
-    const staticBase = '/staticimages';
-    cartElement.setAttribute('staticbase', staticBase); // именно staticbase
-    cartElement.setAttribute('icon', 'breaker.svg');
-    
-    const handleCartClick = (e: Event) => {
-      e.preventDefault();
+    if (!cartIconLoaded) return;
+    const host = cartContainerRef.current;
+    if (!host) return;
+
+    // если уже создан — ничего не делаем
+    if (cartElRef.current) return;
+
+    const el = document.createElement('cart-icon') as CartIconEl;
+    cartElRef.current = el;
+
+    // лучше properties, чем setAttribute (особенно для number)
+    el.staticBase = '/staticimages';
+    el.icon = 'breaker.svg';
+    el.count = cartCount;
+
+    const onCartClick = (e: Event) => {
+      e.preventDefault?.();
       navigate(ROUTES.MIXING);
     };
-    
-    cartElement.addEventListener('cartClick', handleCartClick);
-    cartElement.addEventListener('click', handleCartClick);
-    
-    cartContainerRef.current.appendChild(cartElement);
-    
+
+    el.addEventListener('cartClick', onCartClick);
+    host.appendChild(el);
+
     return () => {
-      const currentElement = cartContainerRef.current?.querySelector('cart-icon');
-      if (currentElement) {
-        currentElement.removeEventListener('cartClick', handleCartClick);
-        currentElement.removeEventListener('click', handleCartClick);
-      }
-      if (cartContainerRef.current) {
-        cartContainerRef.current.innerHTML = '';
-      }
+      el.removeEventListener('cartClick', onCartClick);
+      host.removeChild(el);
+      cartElRef.current = null;
     };
-  }, [cartIconLoaded, cartCount, navigate]);
+  }, [cartIconLoaded, navigate]); // cartCount тут НЕ нужен
+
+  // 3) обновлять count без пересоздания элемента
+  useEffect(() => {
+    if (!cartIconLoaded) return;
+    const el = cartElRef.current;
+    if (!el) return;
+
+    el.count = cartCount;
+  }, [cartIconLoaded, cartCount]);
+
+  // ---- остальной ваш код как был ----
 
   const loadChemicals = async (query?: string) => {
     setLoading(true);
@@ -131,10 +141,8 @@ export const ChemicalPage: FC = () => {
   };
 
   useEffect(() => {
-    if (!searchQuery) {
-      loadChemicals(undefined);
-    }
-  }, [searchQuery]); 
+    if (!searchQuery) loadChemicals(undefined);
+  }, [searchQuery]);
 
   useEffect(() => {
     loadCartCount();
@@ -175,22 +183,21 @@ export const ChemicalPage: FC = () => {
         <div ref={cartContainerRef}>
           {errorLoadingMicrofrontend && (
             <div style={{ color: 'red', padding: '10px', border: '1px solid red' }}>
-              ❌ Микрофронтенд не загрузился! 
+              Микрофронтенд не загрузился
             </div>
           )}
-          
           {!cartIconLoaded && !errorLoadingMicrofrontend && (
             <div style={{ padding: '12px', background: '#f0f0f0', borderRadius: '6px' }}>
-              ⏳ Загрузка...
+              Загрузка...
             </div>
           )}
         </div>
 
         <form onSubmit={handleSearch}>
-          <input 
-            type="text" 
-            name="query" 
-            placeholder="Введите запрос" 
+          <input
+            type="text"
+            name="query"
+            placeholder="Введите запрос"
             value={searchQuery}
             onChange={(e) => dispatch(setSearchQuery(e.target.value))}
           />
@@ -207,18 +214,20 @@ export const ChemicalPage: FC = () => {
           ) : (
             chemicals.map((chemical) => (
               <div key={chemical.id} className="card">
-                <img 
-                  src={chemical.image || DEFAULT_IMAGE} 
-                  alt={chemical.name} 
+                <img
+                  src={chemical.image || DEFAULT_IMAGE}
+                  alt={chemical.name}
                   className="card-img"
-                  onError={(e) => { e.currentTarget.src = DEFAULT_IMAGE; }}
+                  onError={(e) => {
+                    e.currentTarget.src = DEFAULT_IMAGE;
+                  }}
                 />
                 <h3>{chemical.name}</h3>
                 <p><strong>Концентрация:</strong> {chemical.concentration}</p>
                 <p><strong>pH:</strong> {chemical.ph}</p>
-                
+
                 <div className="card-actions">
-                  <Link 
+                  <Link
                     to={ROUTES.ELEMENT_DETAIL.replace(':id', chemical.id.toString())}
                     className="btn"
                   >
@@ -226,8 +235,8 @@ export const ChemicalPage: FC = () => {
                   </Link>
 
                   {user && (
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="btn"
                       onClick={() => handleAddToMixing(chemical.id)}
                     >
